@@ -5,24 +5,45 @@
         <input 
             type="text"
             class="form-control"
-            placeholder="Buscar entrada">
+            placeholder="Buscar entrada"
+            v-model="term">
     </div>
 
     <div class="entry-scrollarea">
         <Entry
-            v-for="item in 100"
-            :key="item"
+            v-for="entry in entriesByTerm"
+            :key="entry.id"
+            :entry="entry"
         />
     </div>
   </div>
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default {
     components: {
         Entry: defineAsyncComponent(() => import('./Entry.vue'))
+    },
+    data() {
+        return {
+            term: ''
+        }
+    },
+    computed: {
+        // Mapeo los getters del store, el primer argumento es el modulo del state en este caso joruanl
+        // en el segundo extraigo los getters que quiero de ese modulo
+        // le doy el nombre con el que quiero crear esta propiedad computada en ese component
+        // lo igualo al getter del modulo
+        ...mapGetters( 'journal', {
+            getEntriesByTerm: 'getEntriesByTerm'
+        }),
+        // Otra propiedad computada que recibe el termino para filtrar las entries a mostrar
+        entriesByTerm() {
+            return this.getEntriesByTerm( this.term )
+        }
     }
 }
 </script>
