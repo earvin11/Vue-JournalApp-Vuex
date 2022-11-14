@@ -1,5 +1,8 @@
 <template>
-  <button :class="`btn btn-${ color }`">
+  <!-- cuando se haga click sobre este boton emite un evento personalizado de nombre on:click al elemento padre de este component -->
+  <button
+    @click="$emit('on:click')"
+    :class="`btn btn-${ color }`">
     <i :class="`fa fa-2x ${ icon }`"></i>
   </button>
 </template>
