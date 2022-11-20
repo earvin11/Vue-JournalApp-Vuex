@@ -20,14 +20,22 @@ const useAuth = () => {
         return resp
     }
 
+    const logout = () => {
+        store.commit('auth/logout')
+        // Limpiar entries
+        store.commit('journal/clearEntries')
+    }
+
 
     return {
         checkAuthStatus,
         createUser,
         loginUser,
+        logout,
 
         // guarda una computada con lo que regrese el getter currentState del modulo auth 
-        authStatus: computed(() => store.getters['auth/currentState'])
+        authStatus: computed(() => store.getters['auth/currentState']),
+        userName: computed(() => store.getters['auth/userName'])
     }
 
 }
